@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const Listing = require("./models/listing.js");
-const { count } = require("console");
+const ejsMate = require("ejs-mate");
 
 //Defining port and Listning request
 const port = 8080;
@@ -14,11 +14,12 @@ app.listen(port, () => {
   console.log("Listning Request");
 });
 
-//Setting paths
+//Setting Engines
 app.use(express.static(path.join(__dirname + "/public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 app.use(methodOverride("_method"));
+app.engine("ejs", ejsMate);
 
 //Parsing data
 app.use(express.urlencoded({ extended: true }));

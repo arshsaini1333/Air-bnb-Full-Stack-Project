@@ -1,38 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
+<% layout("/layouts/boilerplate") %>
 
-  <body>
-    <h3>Create a new Lsit</h3>
-    <form action="/listings" method="post">
-      <br />
-      <input type="text" placeholder="Enter Title" name="listing[title]" />
-      <br />
-      <br />
-      <textarea
-        name="description"
-        placeholder="Enter Discription"
-        name="listing[description]"
-      ></textarea>
-      <br /><br />
-      <input type="text" placeholder="Enter Image url" name="listing[image]" />
-      <br />
-      <br />
-      <input type="number" placeholder="Enter Price" name="listing[price]" />
-      <br /><br />
-      <input
-        type="text"
-        placeholder="Enter Location"
-        name="listing[location]"
-      />
-      <br /><br />
-      <input type="text" placeholder="Enter Country" name="listing[country]" />
-      <br /><br />
-      <button>Submit</button>
-    </form>
-  </body>
-</html>
+<body>
+  <h3>Create a new Lsit</h3>
+  <form action="/listings" method="post">
+    <br />
+    <input type="text" placeholder="Enter Title" name="listing[title]" />
+    <br />
+    <br />
+    <textarea
+      name="description"
+      placeholder="Enter Discription"
+      name="listing[description]"
+    ></textarea>
+    <br /><br />
+    <input type="text" placeholder="Enter Image url" name="listing[image]" />
+    <br />
+    <br />
+    <input type="number" placeholder="Enter Price" name="listing[price]" />
+    <br /><br />
+    <input type="text" placeholder="Enter Location" name="listing[location]" />
+    <br /><br />
+    <input type="text" placeholder="Enter Country" name="listing[country]" />
+    <br /><br />
+    <button>Submit</button>
+  </form>
+</body>

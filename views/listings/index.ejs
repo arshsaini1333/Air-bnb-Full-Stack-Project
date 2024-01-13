@@ -1,28 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>All Listings</title>
-  </head>
+<% layout("/layouts/boilerplate") %>
 
-  <body>
-    <h3>Here is the all Lsitings</h3>
+<body>
+  <h3>Here is the all Lsitings</h3>
 
-    <!--Button to Creaete a new Lsit-->
+  <!--Button to Creaete a new Lsit-->
 
-    <form action="/listings/new" method="get">
-      <button>Create New</button>
-    </form>
+  <form action="/listings/new" method="get">
+    <button>Create New</button>
+  </form>
 
-    <ul>
-      <% for(list of listings){ %>
+  <ul>
+    <% for(list of listings){ %>
 
-      <!-- Showing titles of all the listings and by clicking them we can view All of them in detail -->
-      <li>
-        <a href="/listings/<%= list._id %>/show"> <%= list.title %> </a>
-      </li>
-      <% } %>
-    </ul>
-  </body>
-</html>
+    <!-- Showing titles of all the listings and by clicking them we can view All of them in detail -->
+    <li>
+      <a href="/listings/<%= list._id %>/show"> <%= list.title %> </a>
+    </li>
+    <% } %>
+  </ul>
+</body>
