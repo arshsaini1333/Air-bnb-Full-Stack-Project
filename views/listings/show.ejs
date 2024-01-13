@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Showing individual</title>
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+
+  <body>
+    <h3>Here is Your Info About Perticular Lsit</h3>
+    <p>Title: <%= listing.title %></p>
+    <p>Description: <%= listing.description %></p>
+    <p>
+      <img
+        src="<%= listing.image %>"
+        alt=""
+        height="300px"
+        width="300px"
+        alt="image"
+      />
+    </p>
+    <p>Price: &#8377; <%= listing.price.toLocaleString("en-IN")%></p>
+    <p>Location: <%= listing.location %></p>
+    <p>Country: <%= listing.country %></p>
+    <div class="btns">
+      <button>
+        <a href="/listings/<%= listing._id %>/edit">Edit Listing</a>
+      </button>
+
+      <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
+        <button>Delete Listing</button>
+      </form>
+    </div>
+  </body>
+</html>

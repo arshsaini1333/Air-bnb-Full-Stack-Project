@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const methodOverride = require("method-override");
 const Listing = require("./models/listing.js");
+const { count } = require("console");
 
 //Defining port and Listning request
 const port = 8080;
@@ -15,8 +16,9 @@ app.listen(port, () => {
 
 //Setting paths
 app.use(express.static(path.join(__dirname + "/public")));
-app.set("views engine", "ejs");
+app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
+app.use(methodOverride("_method"));
 
 //Parsing data
 app.use(express.urlencoded({ extended: true }));
@@ -41,18 +43,58 @@ app.get("/", (req, res) => {
   res.send("Hello There");
 });
 
-//Testing Listing
-app.get("/testing", async (req, res) => {
-  let testList = new Listing({
-    title: "My Property",
-    desciption: "Lets celebrate you vacations",
+//-------------Creating Routes------------------------
 
-    price: 1200,
-    location: "Goa",
-    country: "India",
-  });
+//Index Route
 
-  await testList.save();
-  console.log("Save Successfully");
-  res.send("Success");
+app.get("/listings", async (req, res) => {
+  let listings = await Listing.find({});
+  res.render("listings/index", { listings });
+});
+
+//Show Route
+
+app.get("/listings/:id/show", async (req, res) => {
+  let id = req.params.id;
+  let listing = await Listing.findById(id);
+  res.render("listings/show", { listing });
+});
+
+//Geting Rquest For new Listing
+app.get("/listings/new", (req, res) => {
+  res.render("listings/new");
+});
+
+//Getting Data For New Lsiting
+app.post("/listings", async (req, res) => {
+  //As we create objects name in our new ejs so we can directly pass the new object
+  //We pass the object
+  let newList = new Listing(req.body.listing);
+  //Saving our listing
+  await newList.save();
+  res.redirect("/listings");
+});
+
+//Editing our List
+
+app.get("/listings/:id/edit", async (req, res) => {
+  let id = req.params.id;
+  let result = await Listing.findById(id);
+  res.render("listings/edit", { result });
+});
+
+//Adding updated data to the DB
+app.put("/listings/:id", async (req, res) => {
+  let id = req.params.id;
+  let updatedListing = req.body.listing;
+  await Listing.updateOne({ _id: id }, updatedListing);
+  res.redirect(`/listings/${id}/show`);
+});
+
+//Deleting list
+
+app.delete("/listings/:id", async (req, res) => {
+  let id = req.params.id;
+  await Listing.deleteOne({ _id: id });
+  res.redirect("/listings");
 });

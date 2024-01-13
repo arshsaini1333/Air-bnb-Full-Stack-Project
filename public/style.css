@@ -1,0 +1,20 @@
+button a {
+  text-decoration: none;
+  color: white;
+}
+
+.btns {
+  display: flex;
+}
+
+.btns button {
+  background-color: dodgerblue;
+  margin-right: 5px;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.btns form button {
+  background-color: red;
+  color: white;
+}
