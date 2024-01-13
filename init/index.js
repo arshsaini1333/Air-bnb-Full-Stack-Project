@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const data = require("./data.js");
+const initData = require("./data.js");
 const Listing = require("../models/listing.js");
 
 //Connection Mongoose
@@ -16,3 +16,15 @@ main()
 async function main() {
   await mongoose.connect(mongoURL);
 }
+
+//creaing function to initialize data base
+const initDB = async () => {
+  //First we delete all the data present in the database
+  await Listing.deleteMany({});
+
+  //Initializing our database
+  await Listing.insertMany(initData.data);
+  console.log("Data initialize");
+};
+
+initDB();
