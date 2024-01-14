@@ -1,21 +1,32 @@
 <% layout("/layouts/boilerplate") %>
 
-<body>
-  <h3>Here is the all Lsitings</h3>
+    <body>
+        <h3>Here is the all Lsitings</h3>
 
-  <!--Button to Creaete a new Lsit-->
+        <!--Button to Creaete a new Lsit-->
 
-  <form action="/listings/new" method="get">
+        <!-- <form action="/listings/new" method="get">
     <button>Create New</button>
-  </form>
+  </form> -->
 
-  <ul>
-    <% for(list of listings){ %>
+        <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 row-cols-xs-1">
+            <% for(list of listings){ %>
 
-    <!-- Showing titles of all the listings and by clicking them we can view All of them in detail -->
-    <li>
-      <a href="/listings/<%= list._id %>/show"> <%= list.title %> </a>
-    </li>
-    <% } %>
-  </ul>
-</body>
+                <!-- Creating cards for each list -->
+
+                <a href="/listings/<%= list.id %>/show">
+                    <div class="card col">
+                        <img src="<%= list.image %>" class="card-img-top" alt="Listing Image" style="height: 20rem" />
+                        <div class="card-img-overlay"></div>
+                        <div class="card-body">
+                            <p class="card-text">
+                                <b> <%= list.title %></b>
+                                <br /> &#8377
+                                <%= list.price.toLocaleString("en-IN")%> / night
+                            </p>
+                        </div>
+                    </div>
+                </a>
+                <% } %>
+        </div>
+    </body>

@@ -1,54 +1,83 @@
 <% layout("/layouts/boilerplate") %>
 
 <body>
-  <h3>Edit Your Listing</h3>
-  <form method="post" action="/listings/<%= result._id %>?_method=PUT">
-    <br />
-    <input
-      type="text"
-      placeholder="Enter Title"
-      name="listing[title]"
-      value="<%= result.title %>"
-    />
-    <br />
-    <br />
-    <textarea
-      name="description"
-      placeholder="Enter Discription"
-      name="listing[description]"
-    >
+  <div class="row mt-3">
+    <div class="col-8 offset-2">
+      <h3>Edit Your Listing</h3>
+      <form method="post" action="/listings/<%= result._id %>?_method=PUT">
+        <div class="mb-3">
+          <label for="name" class="form-label">Title</label>
+          <input
+            type="text"
+            placeholder="Add a catchy Title"
+            name="listing[title]"
+            class="form-control"
+            id="name"
+            value="<%= result.title %>"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="description" class="form-label">Description</label>
+          <textarea
+            name="description"
+            placeholder="Enter Discription"
+            name="listing[description]"
+            class="form-control"
+            id="description"
+          >
 <%= result.description %></textarea
-    >
-    <br /><br />
-    <input
-      type="text"
-      placeholder="Enter Image url"
-      name="listing[image]"
-      value="<%= result.image %>"
-    />
-    <br />
-    <br />
-    <input
-      type="number"
-      placeholder="Enter Price"
-      name="listing[price]"
-      value="<%= result.price %>"
-    />
-    <br /><br />
-    <input
-      type="text"
-      placeholder="Enter Location"
-      name="listing[location]"
-      value="<%= result.location %>"
-    />
-    <br /><br />
-    <input
-      type="text"
-      placeholder="Enter Country"
-      name="listing[country]"
-      value="<%= result.country %>"
-    />
-    <br /><br />
-    <button>Submit</button>
-  </form>
+          >
+        </div>
+        <div class="mb-3">
+          <label for="image" class="form-label">Image URL</label>
+          <input
+            type="text"
+            placeholder="Enter Image url"
+            name="listing[image]"
+            class="form-control"
+            id="image"
+            value="<%= result.image %>"
+          />
+        </div>
+        <div class="row">
+          <div class="mb-3 col-md-4 col-sm-12">
+            <label for="price" class="form-label">Price</label>
+            <input
+              type="number"
+              placeholder="1200"
+              name="listing[price]"
+              class="form-control"
+              id="price"
+              value="<%= result.price %>"
+            />
+          </div>
+          <div class="mb-3 col-md-8 col-sm-12">
+            <label for="country" class="form-label">Country</label>
+            <input
+              type="text"
+              placeholder="India"
+              name="listing[country]"
+              class="form-control"
+              id="country"
+              value="<%= result.country %>"
+            />
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="location" class="form-label">Location</label>
+          <input
+            type="text"
+            placeholder="Amritsar, Punjab"
+            name="listing[location]"
+            class="form-control"
+            id="location"
+            value="<%= result.location %>"
+          />
+        </div>
+
+        <button class="btn btn-dark edit-btn mb-3">Edit</button>
+      </form>
+    </div>
+  </div>
 </body>
