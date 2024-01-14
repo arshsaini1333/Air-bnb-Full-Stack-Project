@@ -121,5 +121,5 @@ body {
 }
 
 .row .edit-btn-show {
-  width: 100% !important;
+  overflow: none;
 }
