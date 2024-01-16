@@ -4,7 +4,12 @@
   <div class="row mt-3">
     <div class="col-8 offset-2">
       <h3>Edit Your Listing</h3>
-      <form method="post" action="/listings/<%= result._id %>?_method=PUT">
+      <form
+        method="post"
+        action="/listings/<%= result._id %>?_method=PUT"
+        novalidate
+        class="needs-validation"
+      >
         <div class="mb-3">
           <label for="name" class="form-label">Title</label>
           <input
@@ -14,7 +19,10 @@
             class="form-control"
             id="name"
             value="<%= result.title %>"
+            required
           />
+          <div class="valid-feedback">Title looks perfect</div>
+          <div class="invalid-feedback">Please Enter valid Title</div>
         </div>
         <div class="mb-3">
           <label for="description" class="form-label">Description</label>
@@ -24,9 +32,12 @@
             name="listing[description]"
             class="form-control"
             id="description"
+            required
           >
 <%= result.description %></textarea
           >
+          <div class="valid-feedback">Description looks perfect</div>
+          <div class="invalid-feedback">Please Enter valid Description</div>
         </div>
         <div class="mb-3">
           <label for="image" class="form-label">Image URL</label>
@@ -37,7 +48,10 @@
             class="form-control"
             id="image"
             value="<%= result.image %>"
+            required
           />
+          <div class="valid-feedback">Image URL looks perfect</div>
+          <div class="invalid-feedback">Please Enter valid Image URL</div>
         </div>
         <div class="row">
           <div class="mb-3 col-md-4 col-sm-12">
@@ -49,7 +63,10 @@
               class="form-control"
               id="price"
               value="<%= result.price %>"
+              required
             />
+            <div class="valid-feedback">Price looks perfect</div>
+            <div class="invalid-feedback">Please Enter valid Price</div>
           </div>
           <div class="mb-3 col-md-8 col-sm-12">
             <label for="country" class="form-label">Country</label>
@@ -60,7 +77,10 @@
               class="form-control"
               id="country"
               value="<%= result.country %>"
+              required
             />
+            <div class="valid-feedback">Country looks perfect</div>
+            <div class="invalid-feedback">Please Enter valid Country</div>
           </div>
         </div>
 
@@ -73,11 +93,15 @@
             class="form-control"
             id="location"
             value="<%= result.location %>"
+            required
           />
+          <div class="valid-feedback">Location looks perfect</div>
+          <div class="invalid-feedback">Please Enter valid Location</div>
         </div>
 
         <button class="btn btn-dark edit-btn mb-3">Edit</button>
       </form>
     </div>
   </div>
+  <!-- <script src="/public/js/script.js"></script> -->
 </body>
