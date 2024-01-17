@@ -67,13 +67,17 @@ app.get("/listings/new", (req, res) => {
 });
 
 //Getting Data For New Lsiting
-app.post("/listings", async (req, res) => {
-  //As we create objects name in our new ejs so we can directly pass the new object
-  //We pass the object
-  let newList = new Listing(req.body.listing);
-  //Saving our listing
-  await newList.save();
-  res.redirect("/listings");
+app.post("/listings", async (req, res, next) => {
+  try {
+    //As we create objects name in our new ejs so we can directly pass the new object
+    //We pass the object
+    let newList = new Listing(req.body.listing);
+    //Saving our listing
+    await newList.save();
+    res.redirect("/listings");
+  } catch (error) {
+    next(error);
+  }
 });
 
 //Editing our List
