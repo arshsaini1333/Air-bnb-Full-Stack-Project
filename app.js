@@ -99,3 +99,9 @@ app.delete("/listings/:id", async (req, res) => {
   await Listing.deleteOne({ _id: id });
   res.redirect("/listings");
 });
+
+//Middleweres
+
+app.use((err, req, res, next) => {
+  res.send("Something went wrong");
+});
