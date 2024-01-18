@@ -50,18 +50,24 @@ app.get("/", (req, res) => {
 
 //Index Route
 
-app.get("/listings", async (req, res) => {
-  let listings = await Listing.find({});
-  res.render("listings/index", { listings });
-});
+app.get(
+  "/listings",
+  wrapAsync(async (req, res) => {
+    let listings = await Listing.find({});
+    res.render("listings/index", { listings });
+  })
+);
 
 //Show Route
 
-app.get("/listings/:id/show", async (req, res) => {
-  let id = req.params.id;
-  let listing = await Listing.findById(id);
-  res.render("listings/show", { listing });
-});
+app.get(
+  "/listings/:id/show",
+  wrapAsync(async (req, res) => {
+    let id = req.params.id;
+    let listing = await Listing.findById(id);
+    res.render("listings/show", { listing });
+  })
+);
 
 //Geting Rquest For new Listing
 app.get("/listings/new", (req, res) => {
@@ -69,26 +75,32 @@ app.get("/listings/new", (req, res) => {
 });
 
 //Getting Data For New Lsiting
-app.post("/listings", async (req, res, next) => {
-  try {
+app.post(
+  "/listings",
+  wrapAsync(async (req, res, next) => {
     //As we create objects name in our new ejs so we can directly pass the new object
     //We pass the object
+    if (!req.body.listing) {
+      throw new ExpressError(400, "Send Required data");
+    }
     let newList = new Listing(req.body.listing);
     //Saving our listing
+
     await newList.save();
     res.redirect("/listings");
-  } catch (error) {
-    next(error);
-  }
-});
+  })
+);
 
 //Editing our List
 
-app.get("/listings/:id/edit", async (req, res) => {
-  let id = req.params.id;
-  let result = await Listing.findById(id);
-  res.render("listings/edit", { result });
-});
+app.get(
+  "/listings/:id/edit",
+  wrapAsync(async (req, res) => {
+    let id = req.params.id;
+    let result = await Listing.findById(id);
+    res.render("listings/edit", { result });
+  })
+);
 
 //Adding updated data to the DB
 app.put(
@@ -103,14 +115,23 @@ app.put(
 
 //Deleting list
 
-app.delete("/listings/:id", async (req, res) => {
-  let id = req.params.id;
-  await Listing.deleteOne({ _id: id });
-  res.redirect("/listings");
-});
+app.delete(
+  "/listings/:id",
+  wrapAsync(async (req, res) => {
+    let id = req.params.id;
+    await Listing.deleteOne({ _id: id });
+    res.redirect("/listings");
+  })
+);
 
+//If Path do not match with anyone
+app.all("*", (req, res, next) => {
+  next(new ExpressError(404, "Page Not Found"));
+});
 //Middleweres
 
 app.use((err, req, res, next) => {
-  res.send("Something went wrong");
+  let { status = 500, message = "Something went wrong" } = err;
+  res.status(status).render("error.ejs", { err });
+  // res.status(status).send(message);
 });
