@@ -7,6 +7,7 @@ const path = require("path");
 const methodOverride = require("method-override");
 const Listing = require("./models/listing.js");
 const ejsMate = require("ejs-mate");
+const wrapAsync = require("./utils/wrapAsync.js");
 
 //Defining port and Listning request
 const port = 8080;
@@ -89,12 +90,15 @@ app.get("/listings/:id/edit", async (req, res) => {
 });
 
 //Adding updated data to the DB
-app.put("/listings/:id", async (req, res) => {
-  let id = req.params.id;
-  let updatedListing = req.body.listing;
-  await Listing.updateOne({ _id: id }, updatedListing);
-  res.redirect(`/listings/${id}/show`);
-});
+app.put(
+  "/listings/:id",
+  wrapAsync(async (req, res, next) => {
+    let id = req.params.id;
+    let updatedListing = req.body.listing;
+    await Listing.updateOne({ _id: id }, updatedListing);
+    res.redirect(`/listings/${id}/show`);
+  })
+);
 
 //Deleting list
 
