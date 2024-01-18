@@ -8,6 +8,7 @@ const methodOverride = require("method-override");
 const Listing = require("./models/listing.js");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
+const ExpressError = require("./utils/ExpressErrors.js");
 
 //Defining port and Listning request
 const port = 8080;
