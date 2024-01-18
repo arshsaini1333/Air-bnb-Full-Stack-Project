@@ -9,7 +9,7 @@ const Listing = require("./models/listing.js");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressErrors.js");
-
+const { listingScheema } = require("./scheema.js");
 //Defining port and Listning request
 const port = 8080;
 app.listen(port, () => {
@@ -69,6 +69,19 @@ app.get(
   })
 );
 
+//Joi Middleware
+
+const validateListing = (req, res, next) => {
+  let { error } = listingScheema.validate(req.body);
+
+  if (error) {
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400, errMsg);
+  } else {
+    next();
+  }
+};
+
 //Geting Rquest For new Listing
 app.get("/listings/new", (req, res) => {
   res.render("listings/new");
@@ -77,14 +90,9 @@ app.get("/listings/new", (req, res) => {
 //Getting Data For New Lsiting
 app.post(
   "/listings",
-  wrapAsync(async (req, res, next) => {
-    //As we create objects name in our new ejs so we can directly pass the new object
-    //We pass the object
-    if (!req.body.listing) {
-      throw new ExpressError(400, "Send Required data");
-    }
+  validateListing,
+  wrapAsync(async (req, res) => {
     let newList = new Listing(req.body.listing);
-    //Saving our listing
 
     await newList.save();
     res.redirect("/listings");
@@ -105,6 +113,7 @@ app.get(
 //Adding updated data to the DB
 app.put(
   "/listings/:id",
+  validateListing,
   wrapAsync(async (req, res, next) => {
     let id = req.params.id;
     let updatedListing = req.body.listing;
