@@ -10,6 +10,7 @@ const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressErrors.js");
 const { listingScheema } = require("./scheema.js");
+const { log } = require("console");
 //Defining port and Listning request
 const port = 8080;
 app.listen(port, () => {
@@ -65,6 +66,7 @@ app.get(
   wrapAsync(async (req, res) => {
     let id = req.params.id;
     let listing = await Listing.findById(id);
+
     res.render("listings/show", { listing });
   })
 );
@@ -72,9 +74,11 @@ app.get(
 //Joi Middleware
 
 const validateListing = (req, res, next) => {
+  console.log(req.body);
   let { error } = listingScheema.validate(req.body);
 
   if (error) {
+    console.log(error);
     let errMsg = error.details.map((el) => el.message).join(",");
     throw new ExpressError(400, errMsg);
   } else {
@@ -92,6 +96,7 @@ app.post(
   "/listings",
   validateListing,
   wrapAsync(async (req, res) => {
+    console.log(req.body);
     let newList = new Listing(req.body.listing);
 
     await newList.save();
@@ -106,6 +111,7 @@ app.get(
   wrapAsync(async (req, res) => {
     let id = req.params.id;
     let result = await Listing.findById(id);
+    console.log(result);
     res.render("listings/edit", { result });
   })
 );
