@@ -80,7 +80,9 @@
                                 </p>
 
                             </div>
-
+                            <form method="post" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" class="mb-2 mt-1">
+                                <button class="btn btn-dark btn-sm ">Delete</button>
+                            </form>
                         </div>
                         <% } %>
                 </div>
