@@ -28,10 +28,12 @@ const listingScheema = new Scheema({
   country: {
     type: String,
   },
-  review: {
-    type: Scheema.Types.ObjectId,
-    ref: "Review",
-  },
+  reviews: [
+    {
+      type: Scheema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
 });
 
 const Listing = mongoose.model("Listing", listingScheema);

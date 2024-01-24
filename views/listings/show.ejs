@@ -6,13 +6,11 @@
                 <%= listing.title %>
             </h3>
         </div>
-        <div class="card col-md-6 offset-md-3 show-card">
+        <div class="card col-md-6 offset-md-3 show-card listing-card">
             <img src="<%= listing.image %>" class="card-img-top show-img" alt="Listing Image" />
 
             <div class="card-body">
                 <p class="card-text">
-
-
                     <%= listing.description %>
                         <br /> &#8377
                         <%= listing.price.toLocaleString("en-IN") %>
@@ -36,5 +34,62 @@
             <form action="/listings/<%= listing._id %>?_method=DELETE" method="post">
                 <button class="btn btn-dark">Delete</button>
             </form>
+        </div>
+    </div>
+
+    <div>
+
+        <div class="col-md-8 offset-md-3  mt-3">
+            <hr>
+            <h3>Leave a Review</h3>
+            <form action="/listings/<%= listing._id %>/reviews" method="post" novalidate class="needs-validation">
+                <div class="mb-3 mt-3">
+                    <label for="rating" class="form-label">Rating</label>
+                    <input type="Range" id="rating" min="1" max="5" name="review[rating]" class="form-range">
+                </div>
+                <div class="mb-3 mt-3">
+                    <label for="comment" class="form-label">Comment</label>
+                    <textarea name="review[comment]" id="comment" class="form-control" required></textarea>
+                    <div class="invalid-feedback">Please add comment to submit a review</div>
+                </div>
+                <div class="mb-3 mt-3">
+                    <button class="btn btn-outline-dark">Submit</button>
+                </div>
+            </form>
+        </div>
+        <div class="col-md-8 offset-md-3 mb-3  mt-3">
+            <hr>
+            <p><b>All Reviews</b></p>
+
+            <% if(listing.reviews.length){ %>
+
+                <div class="row">
+                    <%  for(review of listing.reviews)
+                { %>
+                        <div class="card col-md-5 ms-3 mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">Arsh Saini</h5>
+
+                                <p class="card-text">
+                                    <%= review.comment %>
+                                </p>
+                                <p class="card-text">
+                                    <% for(i=0; i < review.rating ; i++ ) { %>
+                                        <i class="fa-solid fa-star"></i>
+                                        <% } %>
+                                </p>
+
+                            </div>
+
+                        </div>
+                        <% } %>
+                </div>
+                <% }
+                        else{
+                             %>
+
+                    <h5>No Review</h5>
+                    <% } %>
+
         </div>
     </div>

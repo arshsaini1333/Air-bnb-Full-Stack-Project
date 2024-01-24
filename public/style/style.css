@@ -62,7 +62,7 @@ body {
 
 /* Styling our Cards */
 
-.card {
+.listing-card {
   border: none;
   margin-bottom: 2rem;
 }
@@ -122,4 +122,8 @@ body {
 
 .row .edit-btn-show {
   overflow: none;
+}
+
+.fa-star {
+  color: #fdcc0d;
 }

@@ -9,8 +9,8 @@ const Listing = require("./models/listing.js");
 const ejsMate = require("ejs-mate");
 const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressErrors.js");
-const { listingScheema } = require("./scheema.js");
-const { log } = require("console");
+const { listingScheema, reviewSchema } = require("./scheema.js");
+const Review = require("./models/review.js");
 //Defining port and Listning request
 const port = 8080;
 app.listen(port, () => {
@@ -65,7 +65,7 @@ app.get(
   "/listings/:id/show",
   wrapAsync(async (req, res) => {
     let id = req.params.id;
-    let listing = await Listing.findById(id);
+    let listing = await Listing.findById(id).populate("reviews");
 
     res.render("listings/show", { listing });
   })
@@ -73,8 +73,21 @@ app.get(
 
 //Joi Middleware
 
+//Listing Validation
 const validateListing = (req, res, next) => {
   let { error } = listingScheema.validate(req.body);
+
+  if (error) {
+    let errMsg = error.details.map((el) => el.message).join(",");
+    throw new ExpressError(400, errMsg);
+  } else {
+    next();
+  }
+};
+
+//Review Validation
+const validateReview = (req, res, next) => {
+  let { error } = reviewSchema.validate(req.body);
 
   if (error) {
     let errMsg = error.details.map((el) => el.message).join(",");
@@ -133,6 +146,21 @@ app.delete(
     let id = req.params.id;
     await Listing.deleteOne({ _id: id });
     res.redirect("/listings");
+  })
+);
+
+//Review Route
+
+app.post(
+  "/listings/:id/reviews",
+  validateReview,
+  wrapAsync(async (req, res) => {
+    let listing = await Listing.findById(req.params.id);
+    let review = new Review(req.body.review);
+    listing.reviews.push(review);
+    await review.save();
+    await listing.save();
+    res.redirect(`/listings/${req.params.id}/show`);
   })
 );
 
