@@ -1,5 +1,4 @@
 //Requiring all The packages we need
-
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -7,14 +6,14 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressErrors.js");
-
 const listing = require("./routes/listing.js");
 const review = require("./routes/review.js");
+const cookieParser = require("cookie-parser");
 
 //Defining port and Listning request
 const port = 8080;
 app.listen(port, () => {
-    console.log("Listning Request");
+  console.log("Listning Request");
 });
 
 //Setting Engines
@@ -26,25 +25,26 @@ app.engine("ejs", ejsMate);
 
 //Parsing data
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser()); //Parsing Cookies
 
 //Connection Mongoose
 const mongoURL = "mongodb://127.0.0.1:27017/wanderLust";
 
 main()
-    .then((res) => {
-        console.log("Connect Successfully");
-    })
-    .catch((err) => {
-        console.log(err);
-    });
+  .then((res) => {
+    console.log("Connect Successfully");
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
 async function main() {
-    await mongoose.connect(mongoURL);
+  await mongoose.connect(mongoURL);
 }
 
 //Root API
 app.get("/", (req, res) => {
-    res.send("Hello There");
+  res.send("Hello There");
 });
 
 //Using Our Routes
@@ -53,13 +53,13 @@ app.use("/listings", listing);
 
 //If Path do not match with anyone
 app.all("*", (req, res, next) => {
-    next(new ExpressError(404, "Page Not Found"));
+  next(new ExpressError(404, "Page Not Found"));
 });
 
 //Middleweres
 
 app.use((err, req, res, next) => {
-    let { status = 500, message = "Something went wrong" } = err;
-    res.status(status).render("error.ejs", { err });
-    // res.status(status).send(message);
+  let { status = 500, message = "Something went wrong" } = err;
+  res.status(status).render("error.ejs", { err });
+  // res.status(status).send(message);
 });
