@@ -9,6 +9,8 @@ const ExpressError = require("./utils/ExpressErrors.js");
 const listing = require("./routes/listing.js");
 const review = require("./routes/review.js");
 const cookieParser = require("cookie-parser");
+const session = require("express-session");
+const flash = require("connect-flash");
 
 //Defining port and Listning request
 const port = 8080;
@@ -42,14 +44,39 @@ async function main() {
   await mongoose.connect(mongoURL);
 }
 
+//Using Sessions
+const sessionOptions = {
+  secret: "mysupersecretcode",
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 10 * 24 * 60 * 60 * 1000,
+    maxAge: 10 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  },
+};
+
 //Root API
 app.get("/", (req, res) => {
   res.send("Hello There");
 });
 
+//Session
+
+app.use(session(sessionOptions));
+app.use(flash()); //Flash
+
+//Middleware
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error");
+
+  next();
+});
+
 //Using Our Routes
-app.use("/listings/:id/reviews", review);
 app.use("/listings", listing);
+app.use("/listings/:id/reviews", review);
 
 //If Path do not match with anyone
 app.all("*", (req, res, next) => {
