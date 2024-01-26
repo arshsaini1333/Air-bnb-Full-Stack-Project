@@ -6,14 +6,19 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressErrors.js");
-const listing = require("./routes/listing.js");
-const review = require("./routes/review.js");
+
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+//Routers
+
+const listingRouter = require("./routes/listing.js");
+const reviewRouter = require("./routes/review.js");
+const userRouter = require("./routes/user.js");
+const user = require("./models/user.js");
 
 //Defining port and Listning request
 const port = 8080;
@@ -86,18 +91,10 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/demouser", async (req, res) => {
-  let fakeUser = new User({
-    email: "fakeUser@gmail.com",
-    username: "fakeUser",
-  });
-  let reg = await User.register(fakeUser, "password");
-  res.send(reg);
-});
-
 //Using Our Routes
-app.use("/listings", listing);
-app.use("/listings/:id/reviews", review);
+app.use("/listings", listingRouter);
+app.use("/listings/:id/reviews", reviewRouter);
+app.use("/", userRouter);
 
 //If Path do not match with anyone
 app.all("*", (req, res, next) => {

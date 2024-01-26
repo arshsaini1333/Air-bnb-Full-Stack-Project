@@ -3,7 +3,7 @@ const route = express.Router({ mergeParams: true });
 const Listing = require("../models/listing.js");
 const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressErrors.js");
-const { listingScheema, reviewSchema } = require("../scheema.js");
+const { reviewSchema } = require("../scheema.js");
 const Review = require("../models/review.js");
 
 //Review Validation
