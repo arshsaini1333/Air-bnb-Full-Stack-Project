@@ -127,3 +127,21 @@ body {
 .fa-star {
   color: #fdcc0d;
 }
+
+.login a {
+  color: blue;
+}
+
+.login a:hover {
+  text-decoration: underline;
+  text-decoration-color: blue;
+}
+
+.signup a {
+  color: green;
+}
+
+.signup a:hover {
+  text-decoration: underline;
+  text-decoration-color: green;
+}

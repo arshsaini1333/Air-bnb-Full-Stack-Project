@@ -20,7 +20,6 @@ route.post(
       req.flash("success", `Welcome! ${username} to Wanderlust`);
       res.redirect("/listings");
     } catch (e) {
-      console.log(e);
       req.flash("error", e.message);
       res.redirect("/signup");
     }
@@ -46,5 +45,17 @@ route.post(
     res.redirect("/listings");
   })
 );
+
+//Logged Out Route
+
+route.get("/logout", (req, res, next) => {
+  req.logOut((err) => {
+    if (err) {
+      return next(err);
+    }
+    req.flash("success", "You are logged out");
+    res.redirect("/listings");
+  });
+});
 
 module.exports = route;
