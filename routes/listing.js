@@ -33,7 +33,10 @@ route.get(
   "/:id/show",
   wrapAsync(async (req, res) => {
     let id = req.params.id;
-    let listing = await Listing.findById(id).populate("reviews");
+    let listing = await Listing.findById(id)
+      .populate("reviews")
+      .populate("owner");
+    console.log(listing);
     if (!listing) {
       req.flash("error", "List you try to access does not exist!");
       res.redirect("/listings");
@@ -56,6 +59,7 @@ route.post(
   validateListing,
   wrapAsync(async (req, res) => {
     let newList = new Listing(req.body.listing);
+    newList.owner = req.user._id;
 
     await newList.save();
     req.flash("success", "New Listing Created");

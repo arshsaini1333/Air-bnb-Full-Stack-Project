@@ -35,6 +35,10 @@ const listingScheema = new Scheema({
       ref: "Review",
     },
   ],
+  owner: {
+    type: Scheema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 listingScheema.post("findOneAndDelete", async (lisiting) => {
