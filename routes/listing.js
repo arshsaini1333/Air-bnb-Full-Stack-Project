@@ -92,6 +92,11 @@ route.put(
   isLoggedIn,
   wrapAsync(async (req, res, next) => {
     let id = req.params.id;
+    let listing = await Listing.findById(id);
+    if (!listing.owner._id.equals(req.user._id)) {
+      req.flash("error", "You dont have permission to Edit");
+      res.redirect(`/listings/${id}/show`);
+    }
     let updatedListing = req.body.listing;
     await Listing.updateOne({ _id: id }, updatedListing);
 
