@@ -1,22 +1,9 @@
 const express = require("express");
 const route = express.Router();
 const wrapAsync = require("../utils/wrapAsync");
-const { listingScheema } = require("../scheema.js");
 const Listing = require("../models/listing.js");
-const ExpressError = require("../utils/ExpressErrors.js");
-const { isLoggedIn } = require("../middleware.js");
+const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 
-//Listing Validation
-const validateListing = (req, res, next) => {
-  let { error } = listingScheema.validate(req.body);
-
-  if (error) {
-    let errMsg = error.details.map((el) => el.message).join(",");
-    throw new ExpressError(400, errMsg);
-  } else {
-    next();
-  }
-};
 //Index Route
 
 route.get(
@@ -74,6 +61,7 @@ route.post(
 route.get(
   "/:id/edit",
   isLoggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     let id = req.params.id;
     let result = await Listing.findById(id);
@@ -88,15 +76,12 @@ route.get(
 //Adding updated data to the DB
 route.put(
   "/:id",
+  isOwner,
   validateListing,
   isLoggedIn,
   wrapAsync(async (req, res, next) => {
     let id = req.params.id;
-    let listing = await Listing.findById(id);
-    if (!listing.owner._id.equals(req.user._id)) {
-      req.flash("error", "You dont have permission to Edit");
-      res.redirect(`/listings/${id}/show`);
-    }
+
     let updatedListing = req.body.listing;
     await Listing.updateOne({ _id: id }, updatedListing);
 
@@ -110,6 +95,7 @@ route.put(
 route.delete(
   "/:id",
   isLoggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     let id = req.params.id;
     await Listing.findByIdAndDelete(id);
