@@ -21,9 +21,9 @@ route.get(
   wrapAsync(async (req, res) => {
     let id = req.params.id;
     let listing = await Listing.findById(id)
-      .populate("reviews")
+      .populate({ path: "reviews", populate: { path: "author" } })
       .populate("owner");
-    console.log(listing);
+
     if (!listing) {
       req.flash("error", "List you try to access does not exist!");
       res.redirect("/listings");

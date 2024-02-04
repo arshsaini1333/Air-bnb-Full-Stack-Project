@@ -2,6 +2,7 @@ const Listing = require("./models/listing");
 const { listingScheema } = require("./scheema.js");
 const ExpressError = require("./utils/ExpressErrors.js");
 const { reviewSchema } = require("./scheema.js");
+const Review = require("./models/review");
 //Middlewares
 module.exports.isLoggedIn = (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -49,4 +50,16 @@ module.exports.validateReview = (req, res, next) => {
   } else {
     next();
   }
+};
+
+module.exports.isReviewAuthor = async (req, res, next) => {
+  let { id, reviewId } = req.params;
+  let review = await Review.findById(reviewId);
+  console.log(review);
+  console.log(res.locals.currUser);
+  if (!review.author.equals(res.locals.currUser._id)) {
+    req.flash("error", "You dont have permission to delete this review");
+    return res.redirect(`/listings/${id}/show`);
+  }
+  next();
 };
