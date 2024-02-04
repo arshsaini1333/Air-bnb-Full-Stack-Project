@@ -13,7 +13,7 @@ route.get("/", wrapAsync(listingRoutes.index));
 
 route.get("/:id/show", wrapAsync(listingRoutes.show));
 
-//--------------NEW--------------
+//--------------NEW--------------------
 
 //Geting Rquest For new Listing
 route.get("/new", isLoggedIn, listingRoutes.newForm);
