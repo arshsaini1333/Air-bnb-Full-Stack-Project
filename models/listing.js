@@ -43,8 +43,7 @@ const listingScheema = new Scheema({
 
 listingScheema.post("findOneAndDelete", async (lisiting) => {
   if (lisiting) {
-    let res = await Review.deleteMany({ _id: { $in: lisiting.reviews } });
-    console.log(res);
+    await Review.deleteMany({ _id: { $in: lisiting.reviews } });
   }
 });
 
