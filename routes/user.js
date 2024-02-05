@@ -5,28 +5,23 @@ const passport = require("passport");
 const { saveUrl } = require("../middleware");
 const userRoutes = require("../controllers/user.js");
 //SignUp Get Request
-route.get("/signup", userRoutes.signUp);
 
-//SignUp Post Request
-route.post("/signup", wrapAsync(userRoutes.savingUser));
+route
+  .route("/signup")
+  .get(userRoutes.signUp)
+  .post(wrapAsync(userRoutes.savingUser));
 
-//Login Get Requst
-
-route.get("/login", userRoutes.loginForm);
-
-//Login Post Request
-
-route.post(
-  "/login",
-  saveUrl,
-  passport.authenticate("local", {
-    failureRedirect: "/login",
-    failureFlash: true,
-  }),
-  wrapAsync(userRoutes.login)
-);
-
-//Logged Out Route
+route
+  .route("/login")
+  .get(userRoutes.loginForm)
+  .post(
+    saveUrl,
+    passport.authenticate("local", {
+      failureRedirect: "/login",
+      failureFlash: true,
+    }),
+    wrapAsync(userRoutes.login)
+  );
 
 route.get("/logout", userRoutes.logOut);
 
