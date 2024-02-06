@@ -1,4 +1,9 @@
 //Requiring all The packages we need
+
+if (process.env.NODE_ENV != "production") {
+  require("dotenv").config();
+}
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -18,7 +23,6 @@ const User = require("./models/user.js");
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
-const user = require("./models/user.js");
 
 //Defining port and Listning request
 const port = 8080;

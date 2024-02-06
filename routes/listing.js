@@ -5,12 +5,18 @@ const Listing = require("../models/listing.js");
 const { isLoggedIn, isOwner, validateListing } = require("../middleware.js");
 const listingRoutes = require("../controllers/listing.js");
 
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+
 //Routes
 
 route
   .route("/")
   .get(wrapAsync(listingRoutes.index))
-  .post(isLoggedIn, validateListing, wrapAsync(listingRoutes.saveNewListing));
+  // .post(isLoggedIn, validateListing, wrapAsync(listingRoutes.saveNewListing));
+  .post(upload.single("listing[image]"), (req, res) => {
+    res.send(req.file);
+  });
 
 route
   .route("/:id")
