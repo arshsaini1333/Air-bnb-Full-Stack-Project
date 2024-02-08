@@ -5,6 +5,7 @@ if (process.env.NODE_ENV != "production") {
 }
 
 const express = require("express");
+const favicon = require("serve-favicon");
 const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
@@ -24,14 +25,9 @@ const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
-//Defining port and Listning request
-const port = 8080;
-app.listen(port, () => {
-  console.log("Listning Request");
-});
-
 //Setting Engines
-app.use(express.static(path.join(__dirname + "/public")));
+app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
+app.use(express.static(path.join(__dirname, "/public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 app.use(methodOverride("_method"));
@@ -112,4 +108,9 @@ app.use((err, req, res, next) => {
   let { status = 500, message = "Something went wrong" } = err;
   res.status(status).render("error.ejs", { err });
   // res.status(status).send(message);
+});
+
+const port = 8080;
+app.listen(port, () => {
+  console.log("Listning Request");
 });
