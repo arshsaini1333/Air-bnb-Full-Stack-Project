@@ -141,3 +141,8 @@ body {
   text-decoration: underline;
   text-decoration-color: green;
 }
+
+#map {
+  height: 400px;
+  width: 118vh;
+}
