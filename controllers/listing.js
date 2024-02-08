@@ -47,7 +47,9 @@ module.exports.editForm = async (req, res) => {
     req.flash("error", "List you try to update does not exist!");
     res.redirect("/listings");
   }
-  res.render("listings/edit", { result });
+  let originalImageURL = result.image.url;
+  originalImageURL = originalImageURL.replace("/upload", "/upload/h_300,w_250");
+  res.render("listings/edit", { result, originalImageURL });
 };
 
 //Saving Edited Listing
