@@ -11,17 +11,21 @@ const upload = multer({ storage });
 
 //Routes
 
-route.route("/").get(wrapAsync(listingRoutes.index)).post(
-  isLoggedIn,
-  //validateListing,
-  upload.single("listing[image]"),
-  wrapAsync(listingRoutes.saveNewListing)
-);
+route
+  .route("/")
+  .get(wrapAsync(listingRoutes.index))
+  .post(
+    isLoggedIn,
+    upload.single("listing[image]"),
+    validateListing,
+    wrapAsync(listingRoutes.saveNewListing)
+  );
 
 route
   .route("/:id")
   .put(
     isOwner,
+    upload.single("listing[image]"),
     validateListing,
     isLoggedIn,
     wrapAsync(listingRoutes.saveUpdatedList)
