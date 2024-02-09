@@ -5,7 +5,7 @@ if (process.env.NODE_ENV != "production") {
 }
 
 const express = require("express");
-const favicon = require("serve-favicon");
+const favicon = require("@sefinek/express-favicon");
 const app = express();
 const mongoose = require("mongoose");
 const path = require("path");
@@ -26,7 +26,7 @@ const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
 
 //Setting Engines
-app.use(favicon(path.join(__dirname, "public", "favicon.ico")));
+app.use(favicon(__dirname + "/public/favicon.png"));
 app.use(express.static(path.join(__dirname, "/public")));
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
@@ -65,9 +65,9 @@ const sessionOptions = {
 };
 
 //Root API
-app.get("/", (req, res) => {
-  res.send("Hello There");
-});
+// app.get("/", (req, res) => {
+//   res.send("Hello There");
+// });
 
 //Session
 
