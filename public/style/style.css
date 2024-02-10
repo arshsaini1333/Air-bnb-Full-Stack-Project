@@ -21,6 +21,12 @@ body {
   font-size: 2rem;
 }
 
+.explore {
+  color: #fe424d !important;
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
 .nav-link {
   color: #222222;
 }
@@ -58,6 +64,14 @@ body {
   flex-wrap: wrap;
   justify-content: center;
   align-items: space-evenly;
+}
+
+.nav-link {
+  opacity: 0.7;
+}
+
+.nav-link:hover {
+  opacity: 1;
 }
 
 /* Styling our Cards */
@@ -145,4 +159,67 @@ body {
 #map {
   height: 400px;
   width: 100%;
+}
+
+/* Index Page Filter */
+
+#filters {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.filter {
+  text-align: center;
+  margin-right: 2rem;
+  margin-top: 2rem;
+  opacity: 0.7;
+}
+
+.filter:hover {
+  opacity: 1;
+  cursor: pointer;
+}
+
+.filter p {
+  font-size: 0.8rem;
+}
+
+.tax-info {
+  display: none;
+}
+
+.tax-switch {
+  border: 1px solid black;
+  border-radius: 1rem;
+  height: 3.25rem;
+  padding: 1rem;
+  margin-left: 2rem;
+  display: flex;
+  align-items: center;
+}
+
+/* Search Button */
+
+.btn-search {
+  background-color: #fe424d;
+  color: white;
+  border-radius: 25px;
+  padding: 0 1rem 0 1rem;
+}
+
+.btn-search:hover {
+  background-color: #fe424d;
+  color: white;
+}
+
+.btn-search i {
+  display: inline;
+  margin-right: 0.5rem;
+}
+
+.input-search {
+  border-radius: 25px;
+  padding: 0.5rem 3rem 0.5rem 3rem;
+  font-size: 1rem;
 }

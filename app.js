@@ -12,9 +12,9 @@ const path = require("path");
 const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require("./utils/ExpressErrors.js");
-
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -38,7 +38,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); //Parsing Cookies
 
 //Connection Mongoose
-const mongoURL = "mongodb://127.0.0.1:27017/wanderLust";
+//const mongoURL = "mongodb://127.0.0.1:27017/wanderLust";
+const dbUrl = process.env.ATLASDB_URL;
 
 main()
   .then((res) => {
@@ -49,7 +50,7 @@ main()
   });
 
 async function main() {
-  await mongoose.connect(mongoURL);
+  await mongoose.connect(dbUrl);
 }
 
 //Using Sessions
