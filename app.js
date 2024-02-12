@@ -38,8 +38,6 @@ app.engine("ejs", ejsMate);
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); //Parsing Cookies
 
-//Connection Mongoose
-//const mongoURL = "mongodb://127.0.0.1:27017/wanderLust";
 const dbUrl = process.env.ATLASDB_URL;
 
 main()
