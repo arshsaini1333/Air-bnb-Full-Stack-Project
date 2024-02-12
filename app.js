@@ -24,6 +24,7 @@ const User = require("./models/user.js");
 const listingRouter = require("./routes/listing.js");
 const reviewRouter = require("./routes/review.js");
 const userRouter = require("./routes/user.js");
+const { error } = require("console");
 
 //Setting Engines
 app.use(favicon(__dirname + "/public/favicon.png"));
@@ -53,8 +54,21 @@ async function main() {
   await mongoose.connect(dbUrl);
 }
 
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: "mysupersecret",
+  },
+  touchAfter: 24 * 60 * 60,
+});
+
+store.on("error", () => {
+  console.log("Error in MONGO STORE", err);
+});
+
 //Using Sessions
 const sessionOptions = {
+  store,
   secret: "mysupersecretcode",
   resave: false,
   saveUninitialized: true,
