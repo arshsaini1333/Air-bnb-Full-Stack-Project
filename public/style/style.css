@@ -223,3 +223,14 @@ body {
   padding: 0.5rem 3rem 0.5rem 3rem;
   font-size: 1rem;
 }
+
+/* Main Page Home Page
+ */
+
+#heading {
+  margin: 1rem auto;
+  color: #fe424d;
+  font-size: 3rem;
+  font-weight: 900;
+  text-align: center;
+}
