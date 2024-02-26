@@ -35,7 +35,9 @@ route
 route.get("/:id/show", wrapAsync(listingRoutes.show));
 route.get("/search", async (req, res) => {
   let location = req.query.location;
-  let listings = await Listing.find({ location: location });
+  let listings = await Listing.find({
+    $or: [{ location: location }, { country: location }],
+  });
 
   if (listings.length === 0) {
     req.flash("error", "Oops! Listing fot this location does not Exist");
