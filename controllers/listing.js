@@ -45,8 +45,8 @@ module.exports.saveNewListing = async (req, res) => {
   newList.image = { url, fileName };
 
   newList.geometry = coordinate.body.features[0].geometry;
-  let result = await newList.save();
-  console.log(result);
+  await newList.save();
+
   req.flash("success", "New Listing Created");
   res.redirect("/listings");
 };
