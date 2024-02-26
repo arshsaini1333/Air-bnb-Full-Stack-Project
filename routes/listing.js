@@ -33,6 +33,17 @@ route
   .delete(isLoggedIn, isOwner, wrapAsync(listingRoutes.deleteListing));
 
 route.get("/:id/show", wrapAsync(listingRoutes.show));
+route.get("/search", async (req, res) => {
+  let location = req.query.location;
+  let listings = await Listing.find({ location: location });
+
+  if (listings.length === 0) {
+    req.flash("error", "Oops! Listing fot this location does not Exist");
+    res.redirect("/listings");
+  }
+
+  res.render("listings/index", { listings });
+});
 
 route.get("/new", isLoggedIn, listingRoutes.newForm);
 

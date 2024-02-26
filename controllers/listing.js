@@ -65,7 +65,7 @@ module.exports.editForm = async (req, res) => {
 };
 
 //Saving Edited Listing
-module.exports.saveUpdatedList = async (req, res, next) => {
+module.exports.saveUpdatedList = async (req, res) => {
   let id = req.params.id;
   let updatedListing = req.body.listing;
   let coordinate = await geocodingClient
