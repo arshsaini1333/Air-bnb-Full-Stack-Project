@@ -94,3 +94,18 @@ module.exports.deleteListing = async (req, res) => {
   req.flash("success", "Listing Deleted");
   res.redirect("/listings");
 };
+
+//Searching according to locations
+module.exports.searchListing = async (req, res) => {
+  let location = req.query.location;
+  let listings = await Listing.find({
+    $or: [{ location: location }, { country: location }],
+  });
+
+  if (listings.length === 0) {
+    req.flash("error", "Oops! Listing fot this location does not Exist");
+    res.redirect("/listings");
+  }
+
+  res.render("listings/index", { listings });
+};

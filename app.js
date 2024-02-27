@@ -39,7 +39,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser()); //Parsing Cookies
 
 const dbUrl = process.env.ATLASDB_URL;
-
+// mongoose
+//   .connect("mongodb://127.0.0.1:27017/wanderLust")
+//   .then(() => console.log("Connected to database!"));
 main()
   .then((res) => {
     console.log("Connect Successfully");
@@ -53,7 +55,8 @@ async function main() {
 }
 
 const store = MongoStore.create({
-  mongoUrl: dbUrl,
+  // mongoUrl: dbUrl,
+  mongoUrl: "mongodb://127.0.0.1:27017/wanderLust",
   crypto: {
     secret: process.env.SECRET,
   },

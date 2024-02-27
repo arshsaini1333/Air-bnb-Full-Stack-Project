@@ -8,6 +8,7 @@ module.exports.listingScheema = joi.object({
       location: joi.string().required(),
       country: joi.string().required(),
       image: joi.string().allow("", null),
+      contact: joi.string().required().length(10),
     })
     .required(),
 });

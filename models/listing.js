@@ -46,6 +46,11 @@ const listingScheema = new Scheema({
       required: true,
     },
   },
+  contact: {
+    type: String,
+    required: true,
+    default: "9933445566",
+  },
 });
 
 listingScheema.post("findOneAndDelete", async (lisiting) => {
