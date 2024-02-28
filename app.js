@@ -55,8 +55,8 @@ async function main() {
 }
 
 const store = MongoStore.create({
-  // mongoUrl: dbUrl,
-  mongoUrl: "mongodb://127.0.0.1:27017/wanderLust",
+  mongoUrl: dbUrl,
+  // mongoUrl: "mongodb://127.0.0.1:27017/wanderLust",
   crypto: {
     secret: process.env.SECRET,
   },
