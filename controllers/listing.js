@@ -103,7 +103,7 @@ module.exports.searchListing = async (req, res) => {
   });
 
   if (listings.length === 0) {
-    req.flash("error", "Oops! Listing fot this location does not Exist");
+    req.flash("error", "Oops! Listing for this location does not Exist");
     res.redirect("/listings");
   }
 
